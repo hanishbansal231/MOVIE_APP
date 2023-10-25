@@ -108,20 +108,164 @@ const userUpdate = async (req, res, next) => {
 }
 
 
-const deleteUser = async (req,res,next) => {
+const deleteUser = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+
+        if (!id) {
+            return next(new AppError('Id is not found...', 403));
+        }
+
+        await User.findByIdAndDelete({ _id: id });
+
+        res.status(200).json({
+            success: true,
+            message: 'Deleted Successfully...',
+        });
+
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+const changePassword = async (req, res, next) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const { id } = req.user;
+        if (!oldPassword || !newPassword) {
+            return next(new AppError('All field are mandatory...', 403));
+        }
+
+        const user = await User.findById({ _id: id });
+        user.password = newPassword;
+
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: 'Password Change Successfully...',
+            user,
+        });
+
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+const getLikedMovie = async (req, res, next) => {
+    try {
+        const { id } = req.body;
+
+        const user = await User.findById({ _id: id }).populate('likedMovie').exec();
+
+        if (!user) {
+            return next(new AppError('User not found...', 403));
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: 'Liked Movie...',
+            user,
+        });
+
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+const addLikedMovie = async (req, res, next) => {
+    try {
+        const { movieId } = req.body;
+        const { id } = req.user;
+        if (!movieId) {
+            return next(new AppError('MovieId is not found...', 403));
+        }
+
+        const user = await User.findById(id);
+
+        if (user.likedMovie.includes(movieId)) {
+            return next(new AppError('Movie is already Liked...', 403));
+        }
+
+        user.likedMovie.push(movieId);
+
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: 'Movie Added...',
+            user,
+        });
+
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+const deleteAllLike = async (req, res, next) => {
+    try {
+        const { id } = req.user;
+
+        const user = await User.findById(id);
+
+        if (!user) {
+            return next(new AppError('User is not found...', 402));
+        }
+
+        user.likedMovie = [];
+        await user.save();
+
+        return res.status(200).json({
+            success: true,
+            message: 'Deleted all likes...',
+        });
+
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+// ********************* ADMIN CONTROLLER *****************
+
+const getUsers = async (req,res,next) => {
     try{
-        const {id} = req.user;
+        const user = await User.find({});
+
+        if(!user){
+            return next(new AppError('User is not found...',402));
+        }
+
+        return res.status(200).json({
+            success: true,
+            message:'All users...',
+            user,
+        });
+
+    }catch(e){
+        return next(new AppError(e.message, 500));
+    }
+}
+
+const userDelete = async (req,res,next) => {
+    try{
+        const {id} = req.params;
 
         if(!id){
             return next(new AppError('Id is not found...',403));
         }
 
-      await User.findByIdAndDelete({_id:id});
+        const user = await User.findById(id);
 
-      res.status(200).json({
-        success: true,
-        message: 'Deleted Successfully...',
-      });
+        if(user.isAdmin){
+            return next(new AppError("Can't delete admin user..."));
+        }
+
+        await user.remove();
+
+        return res.status(200).json({
+            success: true,
+            message:'Deleted Successfully...',
+        });
 
     }catch(e){
         return next(new AppError(e.message, 500));
@@ -133,5 +277,11 @@ export {
     register,
     loginUser,
     userUpdate,
-    deleteUser
+    deleteUser,
+    changePassword,
+    getLikedMovie,
+    addLikedMovie,
+    deleteAllLike,
+    getUsers,
+    userDelete,
 }

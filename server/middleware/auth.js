@@ -26,7 +26,24 @@ const isLoggedIn = asyncHandler(async (req, res, next) => {
     }
 });
 
+const isAdmin = (req, res, next) => {
+    try {
+
+        const admin = req.user.isAdmin;
+
+        if (!admin) {
+            return next(new AppError('You do not have admin privileges.', 403));
+        }
+
+        next();
+
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
 
 export {
     isLoggedIn,
+    isAdmin
 }
