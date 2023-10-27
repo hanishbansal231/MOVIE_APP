@@ -5,6 +5,8 @@ import cors from 'cors';
 import errorHandler from './middleware/errorHandler.js';
 import userRouter from './routers/userRouter.js';
 import movieRouter from './routers/movieRouter.js';
+import categoryRouter from './routers/movieRouter.js';
+import uploadRouter from './controllers/uploadFile.js';
 
 const app = express();
 app.use(express.json());
@@ -21,6 +23,8 @@ app.get('/', (req, res) => {
 
 app.use('/api/v1/user', userRouter);
 app.use('/api/v1/movie', movieRouter);
+app.use('/api/v1/category', categoryRouter);
+app.use('/api/v1/upload', uploadRouter);
 
 app.all('*', (req, res) => {
     res.send('OOPS! Invalid Information');
