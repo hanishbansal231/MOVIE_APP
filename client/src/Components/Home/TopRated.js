@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Titles from '../Titles';
 import { BsBookmarkStarFill, BsCaretLeftFill, BsCaretRightFill } from 'react-icons/bs';
 import { Swiper, SwiperSlide } from "swiper/react"
-import { Navigation, Autoplay } from 'swiper/modules';
+import {Autoplay,FreeMode,Navigation, Pagination } from 'swiper/modules';
 import { movies } from '../../Data/movie';
 import { FaHeart } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
@@ -18,12 +18,20 @@ function TopRated() {
       <div className='mt-10'>
         <Swiper
           navigation={{ nextEl, prevEl }}
-          slidesPerView={4}
+          slidesPerView={1}
           spaceBetween={40}
-          autoplay={true}
-          speed={1000}
           loop={true}
-          modules={[Navigation, Autoplay]}
+          autoplay={{delay: 2000, disableOnInteraction:false}}
+          modules={[FreeMode, Pagination,Navigation,Autoplay]}
+          breakpoints={{
+            700: {
+              slidesPerView: 2,
+            },
+            1024: {
+              slidesPerView: 3,
+            },
+          }}
+          className="max-h-[30rem]"
         >
           {
             movies.map((movie, idx) => (
