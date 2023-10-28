@@ -62,12 +62,12 @@ function AboutUs() {
               </div>
             </div>
             <div className='mt-10 lg:mt-0'>
-            <img
-              src={about}
-              alt='aboutus'
-              className='w-full xl:block hidden h-header rounded-lg object-cover'
-            />
-          </div>
+              <img
+                src={about}
+                alt='aboutus'
+                className='w-full xl:block hidden h-header rounded-lg object-cover'
+              />
+            </div>
           </div>
         </div>
       </div>
