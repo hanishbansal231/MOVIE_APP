@@ -12,6 +12,10 @@ import Profile from './Screen/Dashboard/Profile';
 import Aos from 'aos';
 import Password from './Screen/Dashboard/Password';
 import FavoriteMovies from './Screen/Dashboard/FavoriteMovies';
+import MovieList from './Screen/Dashboard/Admin/MovieList';
+import Dashboard from './Screen/Dashboard/Admin/Dashboard';
+import Category from './Screen/Dashboard/Admin/Category';
+import User from './Screen/Dashboard/Admin/User';
 
 function App() {
 
@@ -31,6 +35,10 @@ function App() {
         <Route path='/updateprofile' element={<Profile />} />
         <Route path='/changepassword' element={<Password />} />
         <Route path='/favoritesmovies' element={<FavoriteMovies />} />
+        <Route path='/movielist' element={<MovieList />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/categories' element={<Category />} />
+        <Route path='/user' element={<User />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>
