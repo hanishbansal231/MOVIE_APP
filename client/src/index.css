@@ -5,6 +5,22 @@
 @tailwind components;
 @tailwind utilities;
 
+
+::-webkit-scrollbar {
+    width: 2px;
+    /* Customize the scrollbar width */
+}
+
+::-webkit-scrollbar-track {
+    /* Customize the scrollbar track */
+    background: #d8d8d8ea;
+}
+
+::-webkit-scrollbar-thumb {
+    /* Customize the scrollbar thumb */
+    background: #0B0F29;
+}
+
 body,
 html {
     font-family: 'Poppins', sans-serif;
@@ -23,34 +39,34 @@ select:focus {
 }
 
 
-.linear-bg{
-    background: linear-gradient(269.82deg,#07091c00 0.17%,#080a1ad6 99.87%);
+.linear-bg {
+    background: linear-gradient(269.82deg, #07091c00 0.17%, #080a1ad6 99.87%);
 }
 
-.hoveres{
+.hoveres {
     @apply hidden
 }
 
-.hovered:hover .hoveres{
+.hovered:hover .hoveres {
     @apply flex-colo
 }
 
-.flex-colo{
+.flex-colo {
     @apply flex flex-col justify-center items-center
 }
 
-.flex-rows{
+.flex-rows {
     @apply flex flex-row justify-center items-center
 }
 
-.flex-btn{
+.flex-btn {
     @apply flex justify-between items-center
 }
 
-.transitions{
+.transitions {
     @apply transition duration-500 ease-in-out
 }
 
-.zIndex{
+.zIndex {
     z-index: 1000;
 }

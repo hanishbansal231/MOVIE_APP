@@ -10,7 +10,7 @@ function Movie({movie}) {
     className='border border-border p-1 hover:scale-95 transitions relative rounded overflow-hidden'
     >
         <Link
-        to={`movie/${movie?.title}`}
+        to={`movie/${movie?.id}`}
         className='w-full'
         >
             <img 

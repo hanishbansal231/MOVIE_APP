@@ -4,7 +4,7 @@ export const movies = [
         year: { low: 1995, high: 0 },
         imdbId: '0114709',
         runtime: { low: 81, high: 0 },
-        imdbRating: 8.3,
+        imdbRating: 3,
         movieId: '1',
         countries: ['USA'],
         imdbVotes: { low: 591836, high: 0 },
