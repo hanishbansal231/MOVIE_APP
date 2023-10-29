@@ -62,7 +62,7 @@ function NavBar() {
             </NavLink>
 
             <NavLink
-              to={'/favorite'}
+              to={'/favoritesmovies'}
               className={`${Hover} relative`}
             >
              <FaHeart className='w-6 h-6 ' />
