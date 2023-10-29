@@ -7,7 +7,7 @@ export function Message({ label, placeholder }) {
                 {label}
             </label>
             <textarea
-            placeholder={placeholder}
+                placeholder={placeholder}
                 className='w-full h-40 bg-main resize-none mt-2 p-6 border border-border rounded'
             />
         </div>
@@ -30,5 +30,19 @@ export function Select({ label, options, onChange }) {
                 }
             </select>
         </>
+    )
+}
+
+export function Input({ label, type, placeholder, bg }) {
+    return (
+        <div className='text-sm w-full mb-5'>
+            <label className='text-border font-semibold'>{label}</label>
+            <input
+                type={type}
+                required
+                placeholder={placeholder}
+                className={`w-full text-sm mt-2 p-4 border border-border rounded text-white ${bg ? 'bg-main' : 'bg-dry'}`}
+            />
+        </div>
     )
 }
