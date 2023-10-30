@@ -4,11 +4,12 @@ import logo from '../assets/logo.png';
 import { Input } from '../Components/UsedInputs';
 import { Link, useNavigate } from 'react-router-dom';
 import { FiLogIn } from 'react-icons/fi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { registerAction } from '../Redux/Actions/userActions';
 
 function Register() {
+    const { isLoading } = useSelector((state) => state.userLogin);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ function Register() {
     } = useForm();
 
     const onSubmit = (data) => {
-        dispatch(registerAction(data,navigate));
+        dispatch(registerAction(data, navigate));
     }
 
     return (
@@ -37,7 +38,9 @@ function Register() {
                     <button type='submit'
                         className='bg-subMain transitions hover:bg-main flex-rows gap-4 text-white p-4 rounded-lg w-full'
                     >
-                        <FiLogIn /> Sign In
+                        {
+                            isLoading ? ('Loading...') : (<> <FiLogIn /> Sign In</>)
+                        }
                     </button>
                     <p className='text-center text-border mt-3'>
                         Already have an account?  {" "}

@@ -86,20 +86,16 @@ const userUpdate = async (req, res, next) => {
         const { fullName, email } = req.body;
         const { id } = req.user;
 
-        if (!fullName || !email || !password) {
-            return next(new AppError('All field are mendatory...', 402));
-        }
+        const user = await User.findById(id);
 
-        const user = await User.findByIdAndUpdate({ _id: id }, {
-            fullName,
-            email,
-        }, { new: true });
+        user.fullName = fullName;
+        user.email = email;
 
         if (!user) {
             return next(new AppError('User is not updated...please try again after some time', 403));
         }
-
-        res.status(200).json({
+        await user.save();
+        return res.status(200).json({
             success: true,
             message: 'Updated Successfully...',
             user,

@@ -9,6 +9,7 @@ function NavBar() {
   const hover = 'hover:text-subMain transitions text-white';
   const Hover = ({ isActive }) => (isActive ? 'text-subMain' : hover)
   const { userInfo } = useSelector((state) => state.userLogin);
+  
   return (
     <>
       <div className='bg-main shadow-md sticky top-0 z-20 '>
@@ -65,8 +66,8 @@ function NavBar() {
                   ? (
                     <div className='w-8 h-8'>
                       <img
-                        src={userInfo?.user?.image?.secure_url}
-                        alt={userInfo?.user?.fullName}
+                        src={userInfo?.image?.secure_url}
+                        alt={userInfo?.fullName}
                         className='w-full h-full rounded-full'
                       />
                     </div>

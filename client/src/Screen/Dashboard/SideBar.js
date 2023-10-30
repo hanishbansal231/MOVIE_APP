@@ -19,13 +19,10 @@ function SideBar({ children }) {
         toast.success('Logged out successfully...');
         navigate('/');
     }
-
     const { userInfo } = useSelector((state) => state.userLogin);
-
-    console.log(userInfo.user);
-
+    
     const SlideLinks =
-        userInfo && userInfo.user.isAdmin ? [
+        userInfo && userInfo.isAdmin ? [
             {
                 name: 'Dashboard',
                 link: '/dashboard',
@@ -67,7 +64,7 @@ function SideBar({ children }) {
                 icon: RiLockPasswordLine
             },
         ]
-            : userInfo.user ? [
+            : userInfo ? [
                 {
                     name: 'Update Profile',
                     link: '/updateprofile',
