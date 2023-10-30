@@ -16,6 +16,7 @@ import MovieList from './Screen/Dashboard/Admin/MovieList';
 import Dashboard from './Screen/Dashboard/Admin/Dashboard';
 import Category from './Screen/Dashboard/Admin/Category';
 import User from './Screen/Dashboard/Admin/User';
+import AddMovie from './Screen/Dashboard/Admin/AddMovie';
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/categories' element={<Category />} />
         <Route path='/user' element={<User />} />
+        <Route path='/addmovie' element={<AddMovie />} />
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>
