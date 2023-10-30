@@ -1,56 +1,90 @@
 import React from 'react'
 import { BsFillGridFill } from 'react-icons/bs';
 import { FaHeart, FaListAlt, FaUser } from 'react-icons/fa';
-import { RiLockPasswordLine, RiMovie2Fill } from 'react-icons/ri';
+import { RiLockPasswordLine, RiLoginCircleLine, RiMovie2Fill } from 'react-icons/ri';
 import { HiViewGridAdd } from 'react-icons/hi';
 import { FiSettings } from 'react-icons/fi';
 import Layout from '../../Layout/Layout';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginAction, logoutAction } from '../../Redux/Actions/userActions';
+import toast from 'react-hot-toast';
 
 function SideBar({ children }) {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const SlideLinks = [
-        {
-            name: 'Dashboard',
-            link: '/dashboard',
-            icon: BsFillGridFill
-        },
-        {
-            name: 'Movie List',
-            link: '/movielist',
-            icon: FaListAlt
-        },
-        {
-            name: 'Add Movie',
-            link: '/addmovie',
-            icon: RiMovie2Fill
-        },
-        {
-            name: 'Categories',
-            link: '/categories',
-            icon: HiViewGridAdd
-        },
-        {
-            name: 'User',
-            link: '/user',
-            icon: FaUser
-        },
-        {
-            name: 'Update Profile',
-            link: '/updateprofile',
-            icon: FiSettings
-        },
-        {
-            name: 'Favorites Movies',
-            link: '/favoritesmovies',
-            icon: FaHeart
-        },
-        {
-            name: 'Change Password',
-            link: '/changepassword',
-            icon: RiLockPasswordLine
-        },
-    ]
+    const logoutHanler = () => {
+        dispatch(logoutAction());
+        toast.success('Logged out successfully...');
+        navigate('/');
+    }
+
+    const { userInfo } = useSelector((state) => state.userLogin);
+
+    console.log(userInfo.user);
+
+    const SlideLinks =
+        userInfo && userInfo.user.isAdmin ? [
+            {
+                name: 'Dashboard',
+                link: '/dashboard',
+                icon: BsFillGridFill
+            },
+            {
+                name: 'Movie List',
+                link: '/movielist',
+                icon: FaListAlt
+            },
+            {
+                name: 'Add Movie',
+                link: '/addmovie',
+                icon: RiMovie2Fill
+            },
+            {
+                name: 'Categories',
+                link: '/categories',
+                icon: HiViewGridAdd
+            },
+            {
+                name: 'User',
+                link: '/user',
+                icon: FaUser
+            },
+            {
+                name: 'Update Profile',
+                link: '/updateprofile',
+                icon: FiSettings
+            },
+            {
+                name: 'Favorites Movies',
+                link: '/favoritesmovies',
+                icon: FaHeart
+            },
+            {
+                name: 'Change Password',
+                link: '/changepassword',
+                icon: RiLockPasswordLine
+            },
+        ]
+            : userInfo.user ? [
+                {
+                    name: 'Update Profile',
+                    link: '/updateprofile',
+                    icon: FiSettings
+                },
+                {
+                    name: 'Favorites Movies',
+                    link: '/favoritesmovies',
+                    icon: FaHeart
+                },
+                {
+                    name: 'Change Password',
+                    link: '/changepassword',
+                    icon: RiLockPasswordLine
+                },
+            ]
+                : [];
 
     const active = 'bg-dryGray text-subMain';
     const hover = 'hover:text-white hover:bg-main';
@@ -73,13 +107,16 @@ function SideBar({ children }) {
                                 </NavLink>
                             ))
                         }
+                        <button onClick={logoutHanler} className={`${hover} ${inActive} w-full`}>
+                            <RiLoginCircleLine /> Logout
+                        </button>
                     </div>
                     <div
-                    data-aos='fade-up'
-                    data-aos-duration='1000'
-                    data-aos-delay='10'
-                    data-aos-offset='200'
-                    className='col-span-6 rounded-md bg-dry border border-gray-800 p-6'
+                        data-aos='fade-up'
+                        data-aos-duration='1000'
+                        data-aos-delay='10'
+                        data-aos-offset='200'
+                        className='col-span-6 rounded-md bg-dry border border-gray-800 p-6'
                     >
                         {children}
                     </div>

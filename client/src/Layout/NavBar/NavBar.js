@@ -3,10 +3,12 @@ import { Link, NavLink } from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import { FaHeart, FaSearch } from 'react-icons/fa';
 import { CgUser } from 'react-icons/cg';
+import { useSelector } from 'react-redux';
 
 function NavBar() {
   const hover = 'hover:text-subMain transitions text-white';
   const Hover = ({ isActive }) => (isActive ? 'text-subMain' : hover)
+  const { userInfo } = useSelector((state) => state.userLogin);
   return (
     <>
       <div className='bg-main shadow-md sticky top-0 z-20 '>
@@ -55,18 +57,31 @@ function NavBar() {
             </NavLink>
 
             <NavLink
-              to={'/login'}
+              to={`${userInfo && userInfo.isAdmin ? '/dashboard' : userInfo ? '/updateprofile' : '/login'}`}
               className={Hover}
             >
-             <CgUser className='w-8 h-8 ' />
+              {
+                userInfo && userInfo
+                  ? (
+                    <div className='w-8 h-8'>
+                      <img
+                        src={userInfo?.user?.image?.secure_url}
+                        alt={userInfo?.user?.fullName}
+                        className='w-full h-full rounded-full'
+                      />
+                    </div>
+                  )
+                  :
+                  (<CgUser className='w-8 h-8 ' />)
+              }
             </NavLink>
 
             <NavLink
               to={'/favoritesmovies'}
               className={`${Hover} relative`}
             >
-             <FaHeart className='w-6 h-6 ' />
-             <div className='flex-colo w-5 h-5 rounded-full text-xs bg-subMain text-white absolute -top-4 -right-2'>0</div>
+              <FaHeart className='w-6 h-6 ' />
+              <div className='flex-colo w-5 h-5 rounded-full text-xs bg-subMain text-white absolute -top-4 -right-2'>0</div>
             </NavLink>
 
           </div>

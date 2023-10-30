@@ -7,7 +7,7 @@ const router = Router();
 
 
 // *************PUBLIC ROUTES****************
-router.post('/', asyncHandler(register));
+router.post('/register', asyncHandler(register));
 router.post('/login', asyncHandler(loginUser));
 
 // *************PRIVATE ROUTES****************

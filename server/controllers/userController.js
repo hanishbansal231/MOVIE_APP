@@ -16,22 +16,25 @@ const register = async (req, res, next) => {
             return next(new AppError('User is already exist...Please try to login', 403));
         }
 
-        const user = await User.create({
-            fullName,
-            email,
+        const user = new User({
+            fullName, 
+            email, 
             password,
-        });
+            image:{
+                public_id:email,
+                secure_url:`https://api.dicebear.com/5.x/initials/svg?seed=${fullName}`
+            }
+        })
 
         if (!user) {
             return next(new AppError('User is not created...Please try again after some time', 402));
         }
-
+        await user.save();
         return res.status(200).json({
             success: true,
             message: 'User Registered Successfully...',
             user
         });
-
 
     } catch (e) {
         return next(new AppError(e.message, 500));
@@ -227,36 +230,36 @@ const deleteAllLike = async (req, res, next) => {
 
 // ********************* ADMIN CONTROLLER *****************
 
-const getUsers = async (req,res,next) => {
-    try{
+const getUsers = async (req, res, next) => {
+    try {
         const user = await User.find({});
 
-        if(!user){
-            return next(new AppError('User is not found...',402));
+        if (!user) {
+            return next(new AppError('User is not found...', 402));
         }
 
         return res.status(200).json({
             success: true,
-            message:'All users...',
+            message: 'All users...',
             user,
         });
 
-    }catch(e){
+    } catch (e) {
         return next(new AppError(e.message, 500));
     }
 }
 
-const userDelete = async (req,res,next) => {
-    try{
-        const {id} = req.params;
+const userDelete = async (req, res, next) => {
+    try {
+        const { id } = req.params;
 
-        if(!id){
-            return next(new AppError('Id is not found...',403));
+        if (!id) {
+            return next(new AppError('Id is not found...', 403));
         }
 
         const user = await User.findById(id);
 
-        if(user.isAdmin){
+        if (user.isAdmin) {
             return next(new AppError("Can't delete admin user..."));
         }
 
@@ -264,10 +267,10 @@ const userDelete = async (req,res,next) => {
 
         return res.status(200).json({
             success: true,
-            message:'Deleted Successfully...',
+            message: 'Deleted Successfully...',
         });
 
-    }catch(e){
+    } catch (e) {
         return next(new AppError(e.message, 500));
     }
 }
