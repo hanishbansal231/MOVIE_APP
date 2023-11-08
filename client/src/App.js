@@ -17,6 +17,7 @@ import Dashboard from './Screen/Dashboard/Admin/Dashboard';
 import Category from './Screen/Dashboard/Admin/Category';
 import User from './Screen/Dashboard/Admin/User';
 import AddMovie from './Screen/Dashboard/Admin/AddMovie';
+import { AdminProtectedRoute, ProtectedRoute } from './ProtectedRoute';
 
 function App() {
 
@@ -25,6 +26,8 @@ function App() {
   return (
     <>
       <Routes>
+
+        {/* PUBLIC */}
         <Route path='/' element={<HomeScreen />} />
         <Route path='/about-us' element={<AboutUs />} />
         <Route path='/contact-us' element={<ContactUs />} />
@@ -33,15 +36,24 @@ function App() {
         <Route path='/watch/:id' element={<WatchMovie />} />
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
-        <Route path='/updateprofile' element={<Profile />} />
-        <Route path='/changepassword' element={<Password />} />
-        <Route path='/favoritesmovies' element={<FavoriteMovies />} />
-        <Route path='/movielist' element={<MovieList />} />
-        <Route path='/dashboard' element={<Dashboard />} />
-        <Route path='/categories' element={<Category />} />
-        <Route path='/user' element={<User />} />
-        <Route path='/addmovie' element={<AddMovie />} />
         <Route path='*' element={<NotFound />} />
+
+        {/* PRIVATE */}
+        <Route element={<ProtectedRoute />}>
+          <Route path='/updateprofile' element={<Profile />} />
+          <Route path='/changepassword' element={<Password />} />
+          <Route path='/favoritesmovies' element={<FavoriteMovies />} />
+
+          {/* ADMIN */}
+          <Route element={<AdminProtectedRoute />}>
+            <Route path='/movielist' element={<MovieList />} />
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/categories' element={<Category />} />
+            <Route path='/user' element={<User />} />
+            <Route path='/addmovie' element={<AddMovie />} />
+          </Route>
+        </Route>
+
       </Routes>
     </>
   );

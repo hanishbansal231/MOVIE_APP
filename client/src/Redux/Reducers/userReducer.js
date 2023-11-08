@@ -5,6 +5,7 @@ const initialState = {
   userInfo: null,
   isSuccess: false,
   isError: null,
+  token: null,
 };
 
 export const userLoginReducer = (state = initialState, action) => {
@@ -21,6 +22,7 @@ export const userLoginReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         userInfo: action.payload,
+        token: action.payload.data?.user?.token,
         isSuccess: true,
         isError: null,
       };
@@ -83,6 +85,21 @@ export const userUpdateProfileReducer = (state = {}, action) => {
     case userConstants.USER_UPDATE_PROFILE_FAIL:
       return { isLoading: false, isError: action?.payload }
     case userConstants.USER_UPDATE_PROFILE_RESET:
+      return {};
+    default:
+      return state;
+  }
+}
+
+export const userDeleteProfileReducer = (state = {}, action) => {
+  switch (action.type) {
+    case userConstants.USER_DELETE_PROFILE_REQUEST:
+      return { isLoading: true };
+    case userConstants.USER_DELETE_PROFILE_SUCCESS:
+      return { isLoading: false, userInfo: action.payload, isSuccess: true }
+    case userConstants.USER_DELETE_PROFILE_FAIL:
+      return { isLoading: false, isError: action?.payload }
+    case userConstants.USER_DELETE_PROFILE_RESET:
       return {};
     default:
       return state;
